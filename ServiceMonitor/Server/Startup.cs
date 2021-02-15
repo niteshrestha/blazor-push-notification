@@ -1,11 +1,9 @@
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ServiceMonitor.Server.Extensions;
 
 namespace ServiceMonitor.Server
 {
@@ -22,7 +20,7 @@ namespace ServiceMonitor.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.ConfigurePostgresqlDb();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

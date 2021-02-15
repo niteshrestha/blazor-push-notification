@@ -1,0 +1,29 @@
+﻿@page "/message"
+@inject MonitoringClient MonitoringClient
+@inject IJSRuntime JSRuntime
+
+
+<h3>Notification Service</h3>
+
+@code { 
+    protected override void OnInitialized()
+    {
+        _ = RequestNotificationSubscriptionAsync();
+    }
+
+    async Task RequestNotificationSubscriptionAsync()
+    {
+        var subscription = await JSRuntime.InvokeAsync<NotificationSubscription>("blazorPushNotifications.requestSubscription");
+        if (subscription != null)
+        {
+            try
+            {
+                await MonitoringClient.SubscribeToNotification(subscription);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
