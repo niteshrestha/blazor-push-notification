@@ -19,5 +19,11 @@ namespace ServiceMonitor.Client
             var response = await _httpClient.PutAsJsonAsync("notifications/subscription", subscription);
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task SendNotification()
+        {
+            var response = await _httpClient.PostAsync("notifications/send", null);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
