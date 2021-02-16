@@ -48,7 +48,7 @@ namespace ServiceMonitor.Server.Controllers
                     var payload = JsonSerializer.Serialize(new
                     {
                         message,
-                        url = "http://niteshrestha.com.np/",
+                        url = "counter",
                     });
                     await webPushClient.SendNotificationAsync(pushSubscription, payload, vapidDetails);
                     Console.WriteLine($"Notification sent to subscription with Id {subscription.NotificationSubscriptionId}");
