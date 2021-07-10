@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ServiceMonitor.Server.Helpers;
 using ServiceMonitor.Shared;
-using WebPush;
 
 namespace ServiceMonitor.Server.Controllers
 {
@@ -34,24 +33,12 @@ namespace ServiceMonitor.Server.Controllers
             var subscriptions = _db.NotificationSubscriptions
                 .OrderByDescending(n => n.NotificationSubscriptionId);
 
+            var notificationHelper = new NotificationHelper();
             foreach (var subscription in subscriptions)
             {
-                var publicKey = "BLC8GOevpcpjQiLkO7JmVClQjycvTCYWm6Cq_a7wJZlstGTVZvwGFFHMYfXt6Njyvgx_GlXJeo5cSiZ1y4JOx1o";
-                var privateKey = "OrubzSz3yWACscZXjFQrrtDwCKg-TGFuWhluQ2wLXDo";
-
-                var pushSubscription = new PushSubscription(subscription.Url, subscription.P256dh, subscription.Auth);
-                var vapidDetails = new VapidDetails("mailto:hello@niteshrestha.com.np", publicKey, privateKey);
-                var webPushClient = new WebPushClient();
                 try
                 {
-                    string message = "Scrapper has stopped working. Please check the server";
-                    var payload = JsonSerializer.Serialize(new
-                    {
-                        message,
-                        url = "counter",
-                    });
-                    await webPushClient.SendNotificationAsync(pushSubscription, payload, vapidDetails);
-                    Console.WriteLine($"Notification sent to subscription with Id {subscription.NotificationSubscriptionId}");
+                    await notificationHelper.SendNotification(subscription);
                 }
                 catch (Exception ex)
                 {

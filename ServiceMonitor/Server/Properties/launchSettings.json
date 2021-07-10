@@ -20,6 +20,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
+        "DATABASE_URL": "",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
